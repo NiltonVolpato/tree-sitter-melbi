@@ -406,6 +406,7 @@ module.exports = grammar({
 
     quoted_identifier: ($) => /`[A-Za-z0-9\-_.:\/]+`/,
 
-    unquoted_identifier: ($) => token(seq(/[a-z_]/, repeat(/[a-zA-Z0-9_]*/))),
+    unquoted_identifier: ($) =>
+      token(seq(/[A-Za-z_]/, repeat(/[A-Za-z0-9_]*/))),
   },
 });
