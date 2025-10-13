@@ -1,8 +1,8 @@
 {
-  "name": "tree-sitter-rhizome",
+  "name": "tree-sitter-melbi",
   "version": "0.1.0",
-  "description": "Rhizome grammar for tree-sitter",
-  "repository": "https://github.com/niltonvolpato/rhizome",
+  "description": "Melbi grammar for tree-sitter",
+  "repository": "https://github.com/niltonvolpato/melbi",
   "license": "MIT",
   "author": {
     "name": "Nilton Volpato",
@@ -15,7 +15,7 @@
     "incremental",
     "parsing",
     "tree-sitter",
-    "rhizome"
+    "melbi"
   ],
   "files": [
     "grammar.js",

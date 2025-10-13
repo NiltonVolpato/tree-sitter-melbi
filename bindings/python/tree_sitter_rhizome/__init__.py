@@ -1,4 +1,4 @@
-"""Rhizome grammar for tree-sitter"""
+"""Melbi grammar for tree-sitter"""
 
 from importlib.resources import files as _files
 

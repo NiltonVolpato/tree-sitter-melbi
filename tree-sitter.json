@@ -2,23 +2,23 @@
   "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
   "grammars": [
     {
-      "name": "rhizome",
-      "camelcase": "Rhizome",
-      "title": "Rhizome Language Parser",
-      "scope": "source.rhizome",
+      "name": "melbi",
+      "camelcase": "Melbi",
+      "title": "Melbi Language Parser",
+      "scope": "source.melbi",
       "file-types": [
         "rz",
-        "rhizome",
+        "melbi",
         "rhz"
       ],
-      "injection-regex": "^rhizome$",
-      "class-name": "TreeSitterRhizome"
+      "injection-regex": "^melbi$",
+      "class-name": "TreeSitterMelbi"
     }
   ],
   "metadata": {
     "version": "0.1.0",
     "license": "MIT",
-    "description": "Rhizome grammar for tree-sitter",
+    "description": "Melbi grammar for tree-sitter",
     "authors": [
       {
         "name": "Nilton Volpato",
@@ -27,7 +27,7 @@
       }
     ],
     "links": {
-      "repository": "https://github.com/NiltonVolpato/rhizome"
+      "repository": "https://github.com/NiltonVolpato/melbi"
     }
   },
   "bindings": {

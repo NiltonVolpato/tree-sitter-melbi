@@ -1,5 +1,5 @@
 /**
- * @file Rhizome grammar for tree-sitter
+ * @file Melbi grammar for tree-sitter
  * @author Nilton Volpato <nilton@volpa.to>
  * @license MIT
  */
@@ -8,7 +8,7 @@
 // @ts-check
 
 module.exports = grammar({
-  name: "rhizome",
+  name: "melbi",
 
   extras: ($) => [
     /\s/, // Whitespace

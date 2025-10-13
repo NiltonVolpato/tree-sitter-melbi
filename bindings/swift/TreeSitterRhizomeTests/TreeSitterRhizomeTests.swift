@@ -1,12 +1,12 @@
 import XCTest
 import SwiftTreeSitter
-import TreeSitterRhizome
+import TreeSitterMelbi
 
-final class TreeSitterRhizomeTests: XCTestCase {
+final class TreeSitterMelbiTests: XCTestCase {
     func testCanLoadGrammar() throws {
         let parser = Parser()
-        let language = Language(language: tree_sitter_rhizome())
+        let language = Language(language: tree_sitter_melbi())
         XCTAssertNoThrow(try parser.setLanguage(language),
-                         "Error loading Rhizome Language Parser grammar")
+                         "Error loading Melbi Language Parser grammar")
     }
 }

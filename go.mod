@@ -1,4 +1,4 @@
-module github.com/niltonvolpato/rhizome
+module github.com/niltonvolpato/melbi
 
 go 1.22
 
