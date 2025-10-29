@@ -49,7 +49,7 @@ module.exports = grammar({
         $.call_expression,
         $.grouped_expression,
         $.literal,
-        $.identifier
+        $.identifier,
       ),
 
     // === Primary Expressions ===
@@ -64,7 +64,7 @@ module.exports = grammar({
     unary_expression: ($) =>
       choice(
         prec(3, seq(field("operator", "not"), field("operand", $.expression))),
-        prec(6, seq(field("operator", "-"), field("operand", $.expression)))
+        prec(6, seq(field("operator", "-"), field("operand", $.expression))),
       ),
 
     // === Binary Expressions ===
@@ -83,8 +83,8 @@ module.exports = grammar({
           seq(
             field("left", $.expression),
             field("operator", "or"),
-            field("right", $.expression)
-          )
+            field("right", $.expression),
+          ),
         ),
 
         // and - precedence 2
@@ -93,8 +93,8 @@ module.exports = grammar({
           seq(
             field("left", $.expression),
             field("operator", "and"),
-            field("right", $.expression)
-          )
+            field("right", $.expression),
+          ),
         ),
 
         // +, - - precedence 4
@@ -103,8 +103,8 @@ module.exports = grammar({
           seq(
             field("left", $.expression),
             field("operator", choice("+", "-")),
-            field("right", $.expression)
-          )
+            field("right", $.expression),
+          ),
         ),
 
         // *, / - precedence 5
@@ -113,8 +113,8 @@ module.exports = grammar({
           seq(
             field("left", $.expression),
             field("operator", choice("*", "/")),
-            field("right", $.expression)
-          )
+            field("right", $.expression),
+          ),
         ),
 
         // ^ - precedence 7 (right-assoc)
@@ -123,9 +123,9 @@ module.exports = grammar({
           seq(
             field("left", $.expression),
             field("operator", "^"),
-            field("right", $.expression)
-          )
-        )
+            field("right", $.expression),
+          ),
+        ),
       ),
 
     // === If Expression ===
@@ -140,8 +140,8 @@ module.exports = grammar({
           "then",
           field("consequence", $.expression),
           "else",
-          field("alternative", $.expression)
-        )
+          field("alternative", $.expression),
+        ),
       ),
 
     // === Lambda Expression ===
@@ -155,8 +155,8 @@ module.exports = grammar({
           optional($.lambda_params),
           ")",
           "=>",
-          field("body", $.expression)
-        )
+          field("body", $.expression),
+        ),
       ),
 
     lambda_params: ($) =>
@@ -172,8 +172,8 @@ module.exports = grammar({
         seq(
           field("left", $.expression),
           "otherwise",
-          field("right", $.expression)
-        )
+          field("right", $.expression),
+        ),
       ),
 
     // === Postfix Expressions ===
@@ -186,7 +186,7 @@ module.exports = grammar({
     call_expression: ($) =>
       prec.left(
         8,
-        seq(field("function", $.expression), "(", optional($.call_args), ")")
+        seq(field("function", $.expression), "(", optional($.call_args), ")"),
       ),
 
     call_args: ($) =>
@@ -199,20 +199,24 @@ module.exports = grammar({
           field("object", $.expression),
           "[",
           field("index", $.expression),
-          "]"
-        )
+          "]",
+        ),
       ),
 
     field_expression: ($) =>
       prec.left(
         10,
-        seq(field("object", $.expression), ".", field("field", $.identifier))
+        seq(field("object", $.expression), ".", field("field", $.identifier)),
       ),
 
     cast_expression: ($) =>
       prec.left(
         11,
-        seq(field("expression", $.expression), "as", field("type", $.type_expr))
+        seq(
+          field("expression", $.expression),
+          "as",
+          field("type", $.type_expr),
+        ),
       ),
 
     where_expression: ($) =>
@@ -223,8 +227,8 @@ module.exports = grammar({
           "where",
           "{",
           optional($.binding_list),
-          "}"
-        )
+          "}",
+        ),
       ),
 
     binding_list: ($) =>
@@ -248,12 +252,15 @@ module.exports = grammar({
     type_application: ($) =>
       prec(
         12, // Higher than cast (11) and index (9)
-        seq(field("name", $.type_path), optional(seq("[", $.type_params, "]")))
+        seq(field("name", $.type_path), optional(seq("[", $.type_params, "]"))),
       ),
 
     type_path: ($) =>
       token(
-        seq(/[A-Za-z][A-Za-z0-9_]*/, repeat(seq("::", /[A-Za-z][A-Za-z0-9_]*/)))
+        seq(
+          /[A-Za-z][A-Za-z0-9_]*/,
+          repeat(seq("::", /[A-Za-z][A-Za-z0-9_]*/)),
+        ),
       ),
 
     type_params: ($) => seq($.type_expr, repeat(seq(",", $.type_expr))),
@@ -270,7 +277,7 @@ module.exports = grammar({
         $.format_string,
         $.record,
         $.array,
-        $.map
+        $.map,
       ),
 
     // === Composite Literals ===
@@ -315,11 +322,11 @@ module.exports = grammar({
               seq("0b", /_*[01]/, repeat(/[01_]*/)), // Binary
               seq("0o", /_*[0-7]/, repeat(/[0-7_]*/)), // Octal
               seq("0x", /_*[0-9a-fA-F]/, repeat(/[0-9a-fA-F_]*/)), // Hex
-              seq(/[0-9]/, repeat(/[0-9_]*/)) // Decimal
-            )
-          )
+              seq(/[0-9]/, repeat(/[0-9_]*/)), // Decimal
+            ),
+          ),
         ),
-        optional(seq(token.immediate("`"), $.expression, token.immediate("`")))
+        optional(seq(token.immediate("`"), $.expression, token.immediate("`"))),
       ),
 
     // NOTE: Same whitespace limitation as integer suffix (see comment above)
@@ -335,8 +342,8 @@ module.exports = grammar({
                 /[0-9]/,
                 repeat(/[0-9_]*/),
                 optional(
-                  seq(/[eE]/, optional(/[+-]/), /[0-9]/, repeat(/[0-9_]*/))
-                )
+                  seq(/[eE]/, optional(/[+-]/), /[0-9]/, repeat(/[0-9_]*/)),
+                ),
               ),
               // 3.14, 3., 3.14e10
               seq(
@@ -345,19 +352,19 @@ module.exports = grammar({
                 ".",
                 optional(seq(/[0-9]/, repeat(/[0-9_]*/))),
                 optional(
-                  seq(/[eE]/, optional(/[+-]/), /[0-9]/, repeat(/[0-9_]*/))
-                )
+                  seq(/[eE]/, optional(/[+-]/), /[0-9]/, repeat(/[0-9_]*/)),
+                ),
               ),
               // 3e10, 3e-10
               seq(
                 /[0-9]/,
                 repeat(/[0-9_]*/),
-                seq(/[eE]/, optional(/[+-]/), /[0-9]/, repeat(/[0-9_]*/))
-              )
-            )
-          )
+                seq(/[eE]/, optional(/[+-]/), /[0-9]/, repeat(/[0-9_]*/)),
+              ),
+            ),
+          ),
         ),
-        optional(seq(token.immediate("`"), $.expression, token.immediate("`")))
+        optional(seq(token.immediate("`"), $.expression, token.immediate("`"))),
       ),
 
     suffix: ($) => seq("`", $.expression, "`"),
@@ -365,19 +372,19 @@ module.exports = grammar({
     string: ($) =>
       choice(
         seq('"', repeat(choice($.string_escape, /[^"\\]/)), '"'),
-        seq("'", repeat(choice($.string_escape, /[^'\\]/)), "'")
+        seq("'", repeat(choice($.string_escape, /[^'\\]/)), "'"),
       ),
 
     bytes: ($) =>
       choice(
         seq('b"', repeat(choice($.bytes_escape, /[^"\\]/)), '"'),
-        seq("b'", repeat(choice($.bytes_escape, /[^'\\]/)), "'")
+        seq("b'", repeat(choice($.bytes_escape, /[^'\\]/)), "'"),
       ),
 
     format_string: ($) =>
       choice(
         seq('f"', repeat(choice($.format_text, $.format_expr)), '"'),
-        seq("f'", repeat(choice($.format_text_single, $.format_expr)), "'")
+        seq("f'", repeat(choice($.format_text_single, $.format_expr)), "'"),
       ),
 
     format_text: ($) =>
@@ -393,8 +400,8 @@ module.exports = grammar({
         choice(
           /\\[nrt\\"']/,
           seq("\\u", /[0-9a-fA-F]{4}/),
-          seq("\\U", /[0-9a-fA-F]{8}/)
-        )
+          seq("\\U", /[0-9a-fA-F]{8}/),
+        ),
       ),
 
     bytes_escape: ($) =>
