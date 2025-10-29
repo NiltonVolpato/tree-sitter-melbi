@@ -255,13 +255,7 @@ module.exports = grammar({
         seq(field("name", $.type_path), optional(seq("[", $.type_params, "]"))),
       ),
 
-    type_path: ($) =>
-      token(
-        seq(
-          /[A-Za-z][A-Za-z0-9_]*/,
-          repeat(seq("::", /[A-Za-z][A-Za-z0-9_]*/)),
-        ),
-      ),
+    type_path: ($) => token(/[A-Za-z][A-Za-z0-9_]*/),
 
     type_params: ($) => seq($.type_expr, repeat(seq(",", $.type_expr))),
 
@@ -413,7 +407,6 @@ module.exports = grammar({
 
     quoted_identifier: ($) => /`[A-Za-z0-9\-_.:\/]+`/,
 
-    unquoted_identifier: ($) =>
-      token(seq(/[A-Za-z_]/, repeat(/[A-Za-z0-9_]*/))),
+    unquoted_identifier: ($) => token(/[A-Za-z_][A-Za-z0-9_]*/),
   },
 });

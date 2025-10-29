@@ -909,29 +909,8 @@
     "type_path": {
       "type": "TOKEN",
       "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "[A-Za-z][A-Za-z0-9_]*"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "::"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "[A-Za-z][A-Za-z0-9_]*"
-                }
-              ]
-            }
-          }
-        ]
+        "type": "PATTERN",
+        "value": "[A-Za-z][A-Za-z0-9_]*"
       }
     },
     "type_params": {
@@ -1919,20 +1898,8 @@
     "unquoted_identifier": {
       "type": "TOKEN",
       "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "[A-Za-z_]"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "PATTERN",
-              "value": "[A-Za-z0-9_]*"
-            }
-          }
-        ]
+        "type": "PATTERN",
+        "value": "[A-Za-z_][A-Za-z0-9_]*"
       }
     }
   },
