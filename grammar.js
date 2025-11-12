@@ -64,16 +64,17 @@ module.exports = grammar({
     unary_expression: ($) =>
       choice(
         prec(3, seq(field("operator", "not"), field("operand", $.expression))),
-        prec(6, seq(field("operator", "-"), field("operand", $.expression))),
+        prec(7, seq(field("operator", "-"), field("operand", $.expression))),
       ),
 
     // === Binary Expressions ===
     // Precedence from PRATT_PARSER (lowest to highest):
     // 1. or (left-assoc)
     // 2. and (left-assoc)
-    // 4. +, - (left-assoc)
-    // 5. *, / (left-assoc)
-    // 7. ^ (right-assoc)
+    // 4. ==, !=, <, >, <=, >= (left-assoc)
+    // 5. +, - (left-assoc)
+    // 6. *, / (left-assoc)
+    // 8. ^ (right-assoc)
 
     binary_expression: ($) =>
       choice(
@@ -97,9 +98,19 @@ module.exports = grammar({
           ),
         ),
 
-        // +, - - precedence 4
+        // ==, !=, <, >, <=, >= - precedence 3
         prec.left(
           4,
+          seq(
+            field("left", $.expression),
+            field("operator", choice("==", "!=", "<=", ">=", "<", ">")),
+            field("right", $.expression),
+          ),
+        ),
+
+        // +, - - precedence 4
+        prec.left(
+          5,
           seq(
             field("left", $.expression),
             field("operator", choice("+", "-")),
@@ -109,7 +120,7 @@ module.exports = grammar({
 
         // *, / - precedence 5
         prec.left(
-          5,
+          6,
           seq(
             field("left", $.expression),
             field("operator", choice("*", "/")),
@@ -119,7 +130,7 @@ module.exports = grammar({
 
         // ^ - precedence 7 (right-assoc)
         prec.right(
-          7,
+          8,
           seq(
             field("left", $.expression),
             field("operator", "^"),
