@@ -264,6 +264,23 @@
                     {
                       "type": "STRING",
                       "value": ">"
+                    },
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": "not"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "in"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "in"
                     }
                   ]
                 }

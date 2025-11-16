@@ -98,12 +98,15 @@ module.exports = grammar({
           ),
         ),
 
-        // ==, !=, <, >, <=, >= - precedence 3
+        // ==, !=, <, >, <=, >=, in, not in - precedence 3
         prec.left(
           4,
           seq(
             field("left", $.expression),
-            field("operator", choice("==", "!=", "<=", ">=", "<", ">")),
+            field(
+              "operator",
+              choice("==", "!=", "<=", ">=", "<", ">", seq("not", "in"), "in"),
+            ),
             field("right", $.expression),
           ),
         ),
