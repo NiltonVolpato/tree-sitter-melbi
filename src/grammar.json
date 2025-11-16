@@ -149,6 +149,31 @@
               }
             ]
           }
+        },
+        {
+          "type": "PREC",
+          "value": 7,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "operator",
+                "content": {
+                  "type": "STRING",
+                  "value": "some"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "operand",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "expression"
+                }
+              }
+            ]
+          }
         }
       ]
     },
@@ -1030,6 +1055,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "none"
+        },
+        {
+          "type": "SYMBOL",
           "name": "string"
         },
         {
@@ -1254,6 +1283,10 @@
           "value": "false"
         }
       ]
+    },
+    "none": {
+      "type": "STRING",
+      "value": "none"
     },
     "integer": {
       "type": "SEQ",

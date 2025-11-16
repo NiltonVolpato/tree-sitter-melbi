@@ -2,6 +2,9 @@
  * @file Melbi grammar for tree-sitter
  * @author Nilton Volpato <nilton@volpa.to>
  * @license MIT
+ *
+ * IMPORTANT: Keep this grammar in sync with parser/expression.pest
+ * Changes to syntax must be reflected in both grammars.
  */
 
 /// <reference types="tree-sitter-cli/dsl" />
@@ -65,6 +68,7 @@ module.exports = grammar({
       choice(
         prec(3, seq(field("operator", "not"), field("operand", $.expression))),
         prec(7, seq(field("operator", "-"), field("operand", $.expression))),
+        prec(7, seq(field("operator", "some"), field("operand", $.expression))),
       ),
 
     // === Binary Expressions ===
@@ -280,6 +284,7 @@ module.exports = grammar({
         $.integer,
         $.float,
         $.boolean,
+        $.none,
         $.string,
         $.bytes,
         $.format_string,
@@ -309,6 +314,8 @@ module.exports = grammar({
     // === Scalar Literals ===
 
     boolean: ($) => choice("true", "false"),
+
+    none: ($) => "none",
 
     // NOTE: Tree-sitter limitation with suffix parsing
     // The suffix syntax `123`expr`` is meant to be atomic (no whitespace allowed),

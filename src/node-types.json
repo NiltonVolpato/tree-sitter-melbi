@@ -580,6 +580,10 @@
           "named": true
         },
         {
+          "type": "none",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -859,6 +863,10 @@
           {
             "type": "not",
             "named": false
+          },
+          {
+            "type": "some",
+            "named": false
           }
         ]
       }
@@ -1044,6 +1052,10 @@
     "named": false
   },
   {
+    "type": "none",
+    "named": true
+  },
+  {
     "type": "not",
     "named": false
   },
@@ -1058,6 +1070,10 @@
   {
     "type": "quoted_identifier",
     "named": true
+  },
+  {
+    "type": "some",
+    "named": false
   },
   {
     "type": "string_escape",
