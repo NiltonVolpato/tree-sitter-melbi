@@ -42,6 +42,7 @@ module.exports = grammar({
       choice(
         $.lambda_expression, // Lowest precedence (prefix)
         $.where_expression, // Postfix after lambda
+        $.match_expression,
         $.otherwise_expression,
         $.if_expression, // Prefix
         $.binary_expression,
@@ -254,6 +255,41 @@ module.exports = grammar({
 
     binding: ($) =>
       seq(field("name", $.identifier), "=", field("value", $.expression)),
+
+    match_expression: ($) =>
+      prec.left(
+        -2, // After lambda
+        seq(
+          field("expression", $.expression),
+          "match",
+          "{",
+          optional($.match_arm_list),
+          "}",
+        ),
+      ),
+
+    match_arm_list: ($) =>
+      seq($.match_arm, repeat(seq(",", $.match_arm)), optional(",")),
+
+    match_arm: ($) => seq($.pattern, "->", $.expression),
+
+    pattern: ($) =>
+      choice(
+        seq("(", $.pattern, ")"),
+        $.pattern_literal,
+        $.pattern_wildcard,
+        $.pattern_option,
+        $.pattern_var,
+      ),
+
+    pattern_literal: ($) =>
+      choice($.boolean, $.float, $.integer, $.string, $.bytes),
+
+    pattern_wildcard: (_) => "_",
+
+    pattern_option: ($) => choice("none", seq("some", $.pattern)),
+
+    pattern_var: ($) => $.identifier,
 
     // === Type Expressions ===
 
