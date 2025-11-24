@@ -35,7 +35,7 @@ module.exports = grammar({
     source_file: ($) => $.expression,
 
     // Comments
-    comment: ($) => token(seq("//", /.*/)),
+    comment: (_) => token(prec(1, /\/\/.*/)),
 
     // === Expressions ===
     expression: ($) =>
@@ -386,14 +386,30 @@ module.exports = grammar({
 
     string: ($) =>
       choice(
-        seq('"', repeat(choice($.string_escape, /[^"\\]/)), '"'),
-        seq("'", repeat(choice($.string_escape, /[^'\\]/)), "'"),
+        seq(
+          '"',
+          repeat(choice(token(prec(2, /[^"\\]+/)), $.string_escape)),
+          '"',
+        ),
+        seq(
+          "'",
+          repeat(choice(token(prec(2, /[^'\\]+/)), $.string_escape)),
+          "'",
+        ),
       ),
 
     bytes: ($) =>
       choice(
-        seq('b"', repeat(choice($.bytes_escape, /[^"\\]/)), '"'),
-        seq("b'", repeat(choice($.bytes_escape, /[^'\\]/)), "'"),
+        seq(
+          'b"',
+          repeat(choice($.bytes_escape, token(prec(2, /[^"\\]+/)))),
+          '"',
+        ),
+        seq(
+          "b'",
+          repeat(choice($.bytes_escape, token(prec(2, /[^'\\]+/)))),
+          "'",
+        ),
       ),
 
     format_string: ($) =>
@@ -403,10 +419,10 @@ module.exports = grammar({
       ),
 
     format_text: ($) =>
-      token.immediate(prec(1, /(?:\{\{|\}\}|\\[nrt"'\\]|[^{}"\\])+/)),
+      token.immediate(prec(2, /(?:\{\{|\}\}|\\[nrt"'\\]|[^{}"\\])+/)),
 
     format_text_single: ($) =>
-      token.immediate(prec(1, /(?:\{\{|\}\}|\\[nrt"'\\]|[^{}'\\])+/)),
+      token.immediate(prec(2, /(?:\{\{|\}\}|\\[nrt"'\\]|[^{}'\\])+/)),
 
     format_expr: ($) => seq("{", $.expression, "}"),
 
