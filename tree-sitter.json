@@ -23,11 +23,11 @@
       {
         "name": "Nilton Volpato",
         "email": "nilton@volpa.to",
-        "url": "https://volpa.to/"
+        "url": "https://melbi.dev/"
       }
     ],
     "links": {
-      "repository": "https://github.com/NiltonVolpato/melbi"
+      "repository": "https://github.com/melbi-lang/melbi"
     }
   },
   "bindings": {
